@@ -67,3 +67,7 @@ public someMethod() {
 ### ConcurrentHashMap
 
 JDK 中提供了一个线程安全的 `ConcurrentHashMap`，其实现思路大概是其内部多了一个 `Segment[]` 数组，每一个 `Segment` 对象就像是一个小的 `HashMap`，里面也包含了一个存放 `Entry` 键值对的数组，同样能形成链表结构。然后每个 `Segment` 对象各自持有一把锁，每次写入时，先需要通过 hash 定位到 `Segment`，然后再次通过 hash 定位到 `Segment` 中数组的具体位置，这样在读写不同的 `Segment` 中的数据时可以实现并发完成。
+
+## Known Issue
+
+- Part D Test 数据量过大时 HashMap 中会多出几个元素，偶尔又正常，debug 发现问题大概率出现在链表转换为二叉搜索树的时候，目前暂未解决（
